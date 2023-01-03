@@ -1,0 +1,37 @@
+﻿@page
+@model WebApplicationproiect.Pages.Angajati.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Angajat</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Angajat.Nume)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Angajat.Nume)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Angajat.Experienta)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Angajat.Experienta)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Angajat.Specializare)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Angajat.Specializare)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Angajat?.ID">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
