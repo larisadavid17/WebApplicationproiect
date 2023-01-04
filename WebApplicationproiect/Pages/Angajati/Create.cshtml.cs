@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using WebApplicationproiect.Data;
 using WebApplicationproiect.Models;
 
 namespace WebApplicationproiect.Pages.Angajati
 {
-    public class CreateModel : PageModel
+    public class CreateModel : AngajatServiciiPageModel
     {
         private readonly WebApplicationproiect.Data.WebApplicationproiectContext _context;
 
@@ -24,25 +25,45 @@ namespace WebApplicationproiect.Pages.Angajati
         {
             ViewData["SpecializareID"] = new SelectList(_context.Set<Specializare>(), "ID",
 "DenumireSpecializare");
+            var angajat = new Angajat();
+            angajat.AngajatServicii = new List<AngajatServiciu>();
+            PopulateAssignedServiciuData(_context, angajat);
             return Page();
         }
 
         [BindProperty]
         public Angajat Angajat { get; set; }
-        
-
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string[] selectedServicii)
         {
-          if (!ModelState.IsValid)
+            var newAngajat = new Angajat();
+            if (selectedServicii != null)
             {
-                return Page();
+                newAngajat.AngajatServicii = new List<AngajatServiciu>();
+                foreach (var cat in selectedServicii)
+                {
+                    var catToAdd = new AngajatServiciu
+                    {
+                        ServiciuID = int.Parse(cat)
+                    };
+                    newAngajat.AngajatServicii.Add(catToAdd);
+                }
             }
-
-            _context.Angajat.Add(Angajat);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
+            if (await TryUpdateModelAsync<Angajat>(
+            newAngajat,
+            "Angajat",
+            i => i.Nume,
+            i => i.Experienta, i => i.Cursuri, i => i.SpecializareID))
+            {
+                _context.Angajat.Add(newAngajat);
+                await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+            PopulateAssignedServiciuData(_context, newAngajat);
+            return Page();
         }
     }
 }
+
+
+
+

@@ -11,6 +11,7 @@ namespace WebApplicationproiect.Models
 		public string Cursuri { get; set; }
 		public int? SpecializareID { get; set; }
 		public Specializare? Specializare { get; set; }
+        public ICollection<AngajatServiciu>? AngajatServicii { get; set; }
 
-	}
+    }
 }

@@ -25,12 +25,20 @@
             <th>
                 @Html.DisplayNameFor(model => model.Angajat[0].Specializare.DenumireSpecializare)
             </th>
+            <th>
+ @Html.DisplayNameFor(model => model.Angajat[0].AngajatServicii)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Angajat) {
-        <tr>
+@foreach (var item in Model.AngajatD.Angajati) {
+ string selectedRow = "";
+ if (item.ID == Model.AngajatID)
+ {
+ selectedRow = "table-success";
+ }
+ <tr class="@selectedRow">
             <td>
                 @Html.DisplayFor(modelItem => item.Nume)
             </td>
@@ -42,6 +50,14 @@
             </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Specializare.DenumireSpecializare)
+                </td>
+                <td>
+                    @{
+                        foreach (var category in item.AngajatServicii)
+                        {
+                            @category.Serviciu.ID @: @category.Serviciu.NumeleServiciului <br />
+                        }
+                    }
                 </td>
 
             <td>

@@ -12,7 +12,7 @@ using WebApplicationproiect.Models;
 
 namespace WebApplicationproiect.Pages.Angajati
 {
-    public class EditModel : PageModel
+    public class EditModel : AngajatServiciiPageModel
     {
         private readonly WebApplicationproiect.Data.WebApplicationproiectContext _context;
 
@@ -30,12 +30,21 @@ namespace WebApplicationproiect.Pages.Angajati
             {
                 return NotFound();
             }
-
-            var angajat =  await _context.Angajat.FirstOrDefaultAsync(m => m.ID == id);
+            Angajat = await _context.Angajat
+ .Include(b => b.Specializare)
+ .Include(b => b.AngajatServicii).ThenInclude(b => b.Serviciu)
+ .AsNoTracking()
+ .FirstOrDefaultAsync(m => m.ID == id);
+            if (Angajat == null)
+            {
+                return NotFound();
+            }
+            var angajat = await _context.Angajat.FirstOrDefaultAsync(m => m.ID == id);
             if (angajat == null)
             {
                 return NotFound();
             }
+            PopulateAssignedServiciuData(_context, Angajat);
             Angajat = angajat;
             ViewData["SpecializareID"] = new SelectList(_context.Set<Specializare>(), "ID",
 "SpecializareName");
@@ -44,37 +53,41 @@ namespace WebApplicationproiect.Pages.Angajati
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int? id, string[]
+selectedServicii)
         {
-            if (!ModelState.IsValid)
+            if (id == null)
             {
-                return Page();
+                return NotFound();
             }
-
-            _context.Attach(Angajat).State = EntityState.Modified;
-
-            try
+            var angajatToUpdate = await _context.Angajat
+ .Include(i => i.Specializare)
+ .Include(i => i.AngajatServicii)
+ .ThenInclude(i => i.Serviciu)
+ .FirstOrDefaultAsync(s => s.ID == id);
+            if (angajatToUpdate == null)
             {
+                return NotFound();
+            }
+            if (await TryUpdateModelAsync<Angajat>(
+ angajatToUpdate,
+ "Angajat",
+ i => i.Nume,
+ i => i.Experienta, i => i.Cursuri, i => i.SpecializareID))
+            {
+                UpdateAngajatServicii(_context, selectedServicii, angajatToUpdate);
                 await _context.SaveChangesAsync();
+                return RedirectToPage("./Index");
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AngajatExists(Angajat.ID))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return RedirectToPage("./Index");
-        }
-
-        private bool AngajatExists(int id)
-        {
-          return _context.Angajat.Any(e => e.ID == id);
+            UpdateAngajatServicii(_context, selectedServicii, angajatToUpdate);
+            PopulateAssignedServiciuData(_context, angajatToUpdate);
+            return Page();
         }
     }
 }
+
+
+
+
+
+       

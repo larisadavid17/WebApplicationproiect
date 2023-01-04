@@ -8,5 +8,6 @@
         public int Pret { get; set; }
 
         public ICollection<SpecializareServiciu>? SpecializareServicii { get; set; }
+        public ICollection<AngajatServiciu>? AngajatServicii { get; set; }
     }
 }

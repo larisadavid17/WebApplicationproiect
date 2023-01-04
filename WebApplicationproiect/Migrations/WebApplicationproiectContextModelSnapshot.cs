@@ -52,6 +52,29 @@ namespace WebApplicationproiect.Migrations
                     b.ToTable("Angajat");
                 });
 
+            modelBuilder.Entity("WebApplicationproiect.Models.AngajatServiciu", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
+                    b.Property<int>("AngajatID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ServiciuID")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("AngajatID");
+
+                    b.HasIndex("ServiciuID");
+
+                    b.ToTable("AngajatServiciu");
+                });
+
             modelBuilder.Entity("WebApplicationproiect.Models.Serviciu", b =>
                 {
                     b.Property<int>("ID")
@@ -121,6 +144,25 @@ namespace WebApplicationproiect.Migrations
                     b.Navigation("Specializare");
                 });
 
+            modelBuilder.Entity("WebApplicationproiect.Models.AngajatServiciu", b =>
+                {
+                    b.HasOne("WebApplicationproiect.Models.Angajat", "Angajat")
+                        .WithMany("AngajatServicii")
+                        .HasForeignKey("AngajatID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApplicationproiect.Models.Serviciu", "Serviciu")
+                        .WithMany("AngajatServicii")
+                        .HasForeignKey("ServiciuID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Angajat");
+
+                    b.Navigation("Serviciu");
+                });
+
             modelBuilder.Entity("WebApplicationproiect.Models.SpecializareServiciu", b =>
                 {
                     b.HasOne("WebApplicationproiect.Models.Serviciu", "Serviciu")
@@ -140,8 +182,15 @@ namespace WebApplicationproiect.Migrations
                     b.Navigation("Specializare");
                 });
 
+            modelBuilder.Entity("WebApplicationproiect.Models.Angajat", b =>
+                {
+                    b.Navigation("AngajatServicii");
+                });
+
             modelBuilder.Entity("WebApplicationproiect.Models.Serviciu", b =>
                 {
+                    b.Navigation("AngajatServicii");
+
                     b.Navigation("SpecializareServicii");
                 });
 
