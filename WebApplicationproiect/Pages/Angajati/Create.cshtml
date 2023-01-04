@@ -27,12 +27,14 @@
                 <label asp-for="Angajat.Cursuri" class="control-label"></label>
                 <input asp-for="Angajat.Cursuri" class="form-control" />
                 <span asp-validation-for="Angajat.Cursuri" class="text-danger"></span>
-                <div class="form-group">
-                    <label asp-for="Angajat.SpecializareID" class="control-label">Specializare Name</label>
+                </div>
+<div class="form-group">
+                    <label asp-for="Angajat.SpecializareID" class="control-label">DenumireSpecializare </label>
                     <select asp-for="Angajat.SpecializareID" class="form-control" asp-items="ViewBag.SpecializareID">
+                </select>
                     <span asp-validation-for="Angajat.SpecializareID" class="text-danger"></span>
                 </div>
-            <
+            
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -46,4 +48,4 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+}}

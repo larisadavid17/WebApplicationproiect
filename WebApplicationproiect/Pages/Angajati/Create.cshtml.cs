@@ -23,7 +23,7 @@ namespace WebApplicationproiect.Pages.Angajati
         public IActionResult OnGet()
         {
             ViewData["SpecializareID"] = new SelectList(_context.Set<Specializare>(), "ID",
-"SpecializareName");
+"DenumireSpecializare");
             return Page();
         }
 
