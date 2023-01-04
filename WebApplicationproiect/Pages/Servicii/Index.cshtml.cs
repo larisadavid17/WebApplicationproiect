@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using WebApplicationproiect.Data;
 using WebApplicationproiect.Models;
 
-namespace WebApplicationproiect.Pages.Angajati
+namespace WebApplicationproiect.Pages.Servicii
 {
     public class IndexModel : PageModel
     {
@@ -19,16 +19,14 @@ namespace WebApplicationproiect.Pages.Angajati
             _context = context;
         }
 
-        public IList<Angajat> Angajat { get;set; } = default!;
+        public IList<Serviciu> Serviciu { get;set; } = default!;
 
         public async Task OnGetAsync()
         {
-           
-                Angajat = await _context.Angajat
-                .Include(b => b.Specializare)
-                .ToListAsync();
-            
-
+            if (_context.Serviciu != null)
+            {
+                Serviciu = await _context.Serviciu.ToListAsync();
+            }
         }
     }
 }

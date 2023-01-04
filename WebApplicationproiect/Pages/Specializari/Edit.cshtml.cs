@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using WebApplicationproiect.Data;
 using WebApplicationproiect.Models;
 
-namespace WebApplicationproiect.Pages.Angajati
+namespace WebApplicationproiect.Pages.Specializari
 {
     public class EditModel : PageModel
     {
@@ -22,23 +21,21 @@ namespace WebApplicationproiect.Pages.Angajati
         }
 
         [BindProperty]
-        public Angajat Angajat { get; set; } = default!;
+        public Specializare Specializare { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Angajat == null)
+            if (id == null || _context.Specializare == null)
             {
                 return NotFound();
             }
 
-            var angajat =  await _context.Angajat.FirstOrDefaultAsync(m => m.ID == id);
-            if (angajat == null)
+            var specializare =  await _context.Specializare.FirstOrDefaultAsync(m => m.ID == id);
+            if (specializare == null)
             {
                 return NotFound();
             }
-            Angajat = angajat;
-            ViewData["SpecializareID"] = new SelectList(_context.Set<Specializare>(), "ID",
-"SpecializareName");
+            Specializare = specializare;
             return Page();
         }
 
@@ -51,7 +48,7 @@ namespace WebApplicationproiect.Pages.Angajati
                 return Page();
             }
 
-            _context.Attach(Angajat).State = EntityState.Modified;
+            _context.Attach(Specializare).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +56,7 @@ namespace WebApplicationproiect.Pages.Angajati
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AngajatExists(Angajat.ID))
+                if (!SpecializareExists(Specializare.ID))
                 {
                     return NotFound();
                 }
@@ -72,9 +69,9 @@ namespace WebApplicationproiect.Pages.Angajati
             return RedirectToPage("./Index");
         }
 
-        private bool AngajatExists(int id)
+        private bool SpecializareExists(int id)
         {
-          return _context.Angajat.Any(e => e.ID == id);
+          return _context.Specializare.Any(e => e.ID == id);
         }
     }
 }

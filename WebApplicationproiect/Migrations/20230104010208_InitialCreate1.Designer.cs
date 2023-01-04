@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplicationproiect.Data;
 
@@ -11,9 +12,10 @@ using WebApplicationproiect.Data;
 namespace WebApplicationproiect.Migrations
 {
     [DbContext(typeof(WebApplicationproiectContext))]
-    partial class WebApplicationproiectContextModelSnapshot : ModelSnapshot
+    [Migration("20230104010208_InitialCreate1")]
+    partial class InitialCreate1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,26 +54,6 @@ namespace WebApplicationproiect.Migrations
                     b.ToTable("Angajat");
                 });
 
-            modelBuilder.Entity("WebApplicationproiect.Models.Serviciu", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
-
-                    b.Property<string>("NumeleServiciului")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Pret")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Serviciu");
-                });
-
             modelBuilder.Entity("WebApplicationproiect.Models.Specializare", b =>
                 {
                     b.Property<int>("ID")
@@ -80,36 +62,13 @@ namespace WebApplicationproiect.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
-                    b.Property<string>("DenumireSpecializare")
+                    b.Property<string>("SpecializareName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
                     b.ToTable("Specializare");
-                });
-
-            modelBuilder.Entity("WebApplicationproiect.Models.SpecializareServiciu", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
-
-                    b.Property<int>("ServiciuID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SpecializareID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ServiciuID");
-
-                    b.HasIndex("SpecializareID");
-
-                    b.ToTable("SpecializareServiciu");
                 });
 
             modelBuilder.Entity("WebApplicationproiect.Models.Angajat", b =>
@@ -121,35 +80,9 @@ namespace WebApplicationproiect.Migrations
                     b.Navigation("Specializare");
                 });
 
-            modelBuilder.Entity("WebApplicationproiect.Models.SpecializareServiciu", b =>
-                {
-                    b.HasOne("WebApplicationproiect.Models.Serviciu", "Serviciu")
-                        .WithMany("SpecializareServicii")
-                        .HasForeignKey("ServiciuID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApplicationproiect.Models.Specializare", "Specializare")
-                        .WithMany("SpecializareServicii")
-                        .HasForeignKey("SpecializareID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Serviciu");
-
-                    b.Navigation("Specializare");
-                });
-
-            modelBuilder.Entity("WebApplicationproiect.Models.Serviciu", b =>
-                {
-                    b.Navigation("SpecializareServicii");
-                });
-
             modelBuilder.Entity("WebApplicationproiect.Models.Specializare", b =>
                 {
                     b.Navigation("Angajati");
-
-                    b.Navigation("SpecializareServicii");
                 });
 #pragma warning restore 612, 618
         }

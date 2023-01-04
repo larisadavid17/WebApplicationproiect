@@ -15,5 +15,9 @@ namespace WebApplicationproiect.Data
         }
 
         public DbSet<WebApplicationproiect.Models.Angajat> Angajat { get; set; } = default!;
+
+        public DbSet<WebApplicationproiect.Models.Specializare> Specializare { get; set; }
+
+        public DbSet<WebApplicationproiect.Models.Serviciu> Serviciu { get; set; }
     }
 }

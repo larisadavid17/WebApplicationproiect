@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -9,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using WebApplicationproiect.Data;
 using WebApplicationproiect.Models;
 
-namespace WebApplicationproiect.Pages.Angajati
+namespace WebApplicationproiect.Pages.Specializari
 {
     public class CreateModel : PageModel
     {
@@ -22,13 +21,11 @@ namespace WebApplicationproiect.Pages.Angajati
 
         public IActionResult OnGet()
         {
-            ViewData["SpecializareID"] = new SelectList(_context.Set<Specializare>(), "ID",
-"SpecializareName");
             return Page();
         }
 
         [BindProperty]
-        public Angajat Angajat { get; set; }
+        public Specializare Specializare { get; set; }
         
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
@@ -39,7 +36,7 @@ namespace WebApplicationproiect.Pages.Angajati
                 return Page();
             }
 
-            _context.Angajat.Add(Angajat);
+            _context.Specializare.Add(Specializare);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

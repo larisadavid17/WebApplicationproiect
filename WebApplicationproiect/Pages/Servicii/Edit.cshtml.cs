@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using WebApplicationproiect.Data;
 using WebApplicationproiect.Models;
 
-namespace WebApplicationproiect.Pages.Angajati
+namespace WebApplicationproiect.Pages.Servicii
 {
     public class EditModel : PageModel
     {
@@ -22,23 +21,21 @@ namespace WebApplicationproiect.Pages.Angajati
         }
 
         [BindProperty]
-        public Angajat Angajat { get; set; } = default!;
+        public Serviciu Serviciu { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Angajat == null)
+            if (id == null || _context.Serviciu == null)
             {
                 return NotFound();
             }
 
-            var angajat =  await _context.Angajat.FirstOrDefaultAsync(m => m.ID == id);
-            if (angajat == null)
+            var serviciu =  await _context.Serviciu.FirstOrDefaultAsync(m => m.ID == id);
+            if (serviciu == null)
             {
                 return NotFound();
             }
-            Angajat = angajat;
-            ViewData["SpecializareID"] = new SelectList(_context.Set<Specializare>(), "ID",
-"SpecializareName");
+            Serviciu = serviciu;
             return Page();
         }
 
@@ -51,7 +48,7 @@ namespace WebApplicationproiect.Pages.Angajati
                 return Page();
             }
 
-            _context.Attach(Angajat).State = EntityState.Modified;
+            _context.Attach(Serviciu).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +56,7 @@ namespace WebApplicationproiect.Pages.Angajati
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AngajatExists(Angajat.ID))
+                if (!ServiciuExists(Serviciu.ID))
                 {
                     return NotFound();
                 }
@@ -72,9 +69,9 @@ namespace WebApplicationproiect.Pages.Angajati
             return RedirectToPage("./Index");
         }
 
-        private bool AngajatExists(int id)
+        private bool ServiciuExists(int id)
         {
-          return _context.Angajat.Any(e => e.ID == id);
+          return _context.Serviciu.Any(e => e.ID == id);
         }
     }
 }
