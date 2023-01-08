@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Security.Policy;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,6 +16,8 @@ namespace WebApplicationproiect.Pages.Angajati
 {
     public class EditModel : AngajatServiciiPageModel
     {
+      
+
         private readonly WebApplicationproiect.Data.WebApplicationproiectContext _context;
 
         public EditModel(WebApplicationproiect.Data.WebApplicationproiectContext context)

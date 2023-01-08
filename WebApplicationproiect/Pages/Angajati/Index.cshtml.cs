@@ -23,9 +23,18 @@ namespace WebApplicationproiect.Pages.Angajati
         public AngajatData AngajatD { get; set; }
         public int AngajatID { get; set; }
         public int ServiciuID { get; set; }
-        public async Task OnGetAsync(int? id, int? serviciuID)
+        public string SpecializareSort { get; set; }
+        public string CurrentFilter { get; set; }
+
+       
+
+        public async Task OnGetAsync(int? id, int? serviciuID, string sortOrder, string searchString)
         {
             AngajatD = new AngajatData();
+
+            SpecializareSort = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+
+            CurrentFilter = searchString;
 
             AngajatD.Angajati = await _context.Angajat
             .Include(b => b.Specializare)
@@ -34,12 +43,27 @@ namespace WebApplicationproiect.Pages.Angajati
             .AsNoTracking()
             .OrderBy(b => b.Nume)
             .ToListAsync();
-            if (id != null)
+            if (!String.IsNullOrEmpty(searchString))
+            {
+               // AngajatD.Angajati = AngajatD.Angajati.Where(s => s.Specializare.Contains(searchString));
+            }
+
+
+
+                if (id != null)
             {
                 AngajatID = id.Value;
                 Angajat angajat = AngajatD.Angajati
                 .Where(i => i.ID == id.Value).Single();
                 AngajatD.Servicii = angajat.AngajatServicii.Select(s => s.Serviciu);
+            }
+            switch (sortOrder)
+            {
+                case "title_desc":
+                    AngajatD.Angajati = AngajatD.Angajati.OrderByDescending(s =>
+                   s.Specializare);
+                    break;
+             
             }
         }
     }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Security.Policy;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,6 +14,8 @@ using WebApplicationproiect.Models;
 
 namespace WebApplicationproiect.Pages.Angajati
 {
+    [Authorize(Roles = "Admin")]
+
     public class CreateModel : AngajatServiciiPageModel
     {
         private readonly WebApplicationproiect.Data.WebApplicationproiectContext _context;
@@ -52,7 +56,7 @@ namespace WebApplicationproiect.Pages.Angajati
             newAngajat,
             "Angajat",
             i => i.Nume,
-            i => i.Experienta, i => i.Cursuri, i => i.SpecializareID))
+            i => i.Experienta, i => i.Cursuri, i => i.SpecializareID, i=>i.AngajatServicii))
             {
                 _context.Angajat.Add(newAngajat);
                 await _context.SaveChangesAsync();

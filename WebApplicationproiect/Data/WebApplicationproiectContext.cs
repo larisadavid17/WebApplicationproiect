@@ -19,5 +19,9 @@ namespace WebApplicationproiect.Data
         public DbSet<WebApplicationproiect.Models.Specializare> Specializare { get; set; }
 
         public DbSet<WebApplicationproiect.Models.Serviciu> Serviciu { get; set; }
+
+        public DbSet<WebApplicationproiect.Models.Client> Client { get; set; }
+
+        public DbSet<WebApplicationproiect.Models.Programare> Programare { get; set; }
     }
 }

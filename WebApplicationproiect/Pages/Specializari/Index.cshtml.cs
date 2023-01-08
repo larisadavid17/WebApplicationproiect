@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -19,9 +20,27 @@ namespace WebApplicationproiect.Pages.Specializari
             _context = context;
         }
 
-        public IList<Specializare> Specializare { get;set; } = default!;
+        public IList<Specializare> Specializare { get; set; } = default!;
+        public Models.NewFolder.SpecializareIndexData SpecializareData { get; set; }
+        public int SpecializareID { get; set; }
+        public int AngajatID { get; set; }
+        public async Task OnGetAsync(int? id, int? angajatID)
+        {
+            SpecializareData = new Models.NewFolder.SpecializareIndexData();
+            SpecializareData.Specializari = await _context.Specializare
+            .Include(i => i.Angajati)
+            .OrderBy(i => i.DenumireSpecializare)
+            .ToListAsync();
+            if (id != null)
+            {
+                SpecializareID = id.Value;
+                Specializare specializare = SpecializareData.Specializari
+                .Where(i => i.ID == id.Value).Single();
+                SpecializareData.Angajati = specializare.Angajati;
+            }
+        }
 
-        public async Task OnGetAsync()
+        private async Task OnGetAsync1()
         {
             if (_context.Specializare != null)
             {
@@ -29,4 +48,4 @@ namespace WebApplicationproiect.Pages.Specializari
             }
         }
     }
-}
+    }

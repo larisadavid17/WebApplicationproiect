@@ -10,10 +10,24 @@
 <p>
     <a asp-page="Create">Create New</a>
 </p>
+<form asp-page="./Index" method="get">
+ <div class="form-actions no-color">
+ <p>
+ Find by Specializare:
+ <input type="text" name="SearchString" value="@Model.CurrentFilter"
+/>
+ <input type="submit" value="Search" class="btn btn-primary" /> |
+ <a asp-page="./Index">Back to full List</a>
+ </p>
+ </div>
+</form>
 <table class="table">
     <thead>
         <tr>
             <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.SpecializareSort">
+                    @Html.DisplayNameFor(model => model.Angajat[0].Specializare)
+                </a>
                 @Html.DisplayNameFor(model => model.Angajat[0].Nume)
             </th>
             <th>
@@ -26,7 +40,7 @@
                 @Html.DisplayNameFor(model => model.Angajat[0].Specializare.DenumireSpecializare)
             </th>
             <th>
- @Html.DisplayNameFor(model => model.Angajat[0].AngajatServicii)
+                @Html.DisplayNameFor(model => model.Angajat[0].AngajatServicii)
             </th>
             <th></th>
         </tr>

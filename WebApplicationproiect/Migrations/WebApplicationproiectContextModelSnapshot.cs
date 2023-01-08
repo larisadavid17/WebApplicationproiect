@@ -75,6 +75,61 @@ namespace WebApplicationproiect.Migrations
                     b.ToTable("AngajatServiciu");
                 });
 
+            modelBuilder.Entity("WebApplicationproiect.Models.Client", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
+                    b.Property<string>("Adress")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Client");
+                });
+
+            modelBuilder.Entity("WebApplicationproiect.Models.Programare", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
+
+                    b.Property<int?>("AngajatID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ClientID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("ReturnDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("AngajatID");
+
+                    b.HasIndex("ClientID");
+
+                    b.ToTable("Programare");
+                });
+
             modelBuilder.Entity("WebApplicationproiect.Models.Serviciu", b =>
                 {
                     b.Property<int>("ID")
@@ -163,6 +218,21 @@ namespace WebApplicationproiect.Migrations
                     b.Navigation("Serviciu");
                 });
 
+            modelBuilder.Entity("WebApplicationproiect.Models.Programare", b =>
+                {
+                    b.HasOne("WebApplicationproiect.Models.Angajat", "Angajat")
+                        .WithMany()
+                        .HasForeignKey("AngajatID");
+
+                    b.HasOne("WebApplicationproiect.Models.Client", "Client")
+                        .WithMany("Programari")
+                        .HasForeignKey("ClientID");
+
+                    b.Navigation("Angajat");
+
+                    b.Navigation("Client");
+                });
+
             modelBuilder.Entity("WebApplicationproiect.Models.SpecializareServiciu", b =>
                 {
                     b.HasOne("WebApplicationproiect.Models.Serviciu", "Serviciu")
@@ -185,6 +255,11 @@ namespace WebApplicationproiect.Migrations
             modelBuilder.Entity("WebApplicationproiect.Models.Angajat", b =>
                 {
                     b.Navigation("AngajatServicii");
+                });
+
+            modelBuilder.Entity("WebApplicationproiect.Models.Client", b =>
+                {
+                    b.Navigation("Programari");
                 });
 
             modelBuilder.Entity("WebApplicationproiect.Models.Serviciu", b =>

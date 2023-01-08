@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id:int?}"
 @model WebApplicationproiect.Pages.Specializari.IndexModel
 
 @{
@@ -20,12 +20,20 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Specializare) {
-        <tr>
+        @foreach (var item in Model.SpecializareData.Specializari)
+ {
+ string selectedRow = "";
+ if (item.ID == Model.SpecializareID)
+ {
+ selectedRow = "table-success";
+ }
+ <tr class="@selectedRow">
+
             <td>
                 @Html.DisplayFor(modelItem => item.DenumireSpecializare)
             </td>
             <td>
+                    <a asp-page="./Index" asp-route-id="@item.ID">Select</a> |
                 <a asp-page="./Edit" asp-route-id="@item.ID">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.ID">Details</a> |
                 <a asp-page="./Delete" asp-route-id="@item.ID">Delete</a>
@@ -34,3 +42,24 @@
 }
     </tbody>
 </table>
+@if (Model.SpecializareData.Angajati != null)
+{
+    <h3>Angajati care au aceasta Specializare</h3>
+    <table class="table">
+
+        @foreach (var item in Model.SpecializareData.Specializari)
+        {
+            string selectedRow = "";
+            if (item.ID == Model.SpecializareID)
+            {
+                selectedRow = "table-success";
+            }
+            <tr class="@selectedRow">
+
+                <td>
+                   
+                </td>
+            </tr>
+        }
+    </table>
+}

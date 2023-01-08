@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +14,8 @@ namespace WebApplicationproiect.Pages.Angajati
 {
     public class DeleteModel : PageModel
     {
+        
+
         private readonly WebApplicationproiect.Data.WebApplicationproiectContext _context;
 
         public DeleteModel(WebApplicationproiect.Data.WebApplicationproiectContext context)
