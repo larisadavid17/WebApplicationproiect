@@ -1,2 +1,2 @@
 # WebApplicationproiect
-David Larisa Patricia -grupa2
+David Larisa Patricia 
